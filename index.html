@@ -16,7 +16,7 @@
     <style media="screen">
       #canvas {
         background: #0D0208;
-        height: 100vw;
+        height: 100vh;
         position: absolute;
         width: 100vw;
         z-index: -1;
@@ -44,16 +44,16 @@
   <script type="text/javascript">
 
     // constants
-    const fontSize = Number("12");
+    const fontSize = Number("20");
     const letters = String("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}");
     const matrix = Array.from(letters);
     
     // canvas & context
     const canvas = document.getElementById("canvas");
-    canvas.height = canvas.clientHeight;
-    canvas.width = canvas.clientWidth;
+    canvas.height = Number(canvas.clientHeight) * Number(window.devicePixelRatio);
+    canvas.width = Number(canvas.clientWidth) * Number(window.devicePixelRatio);
     const context = canvas.getContext("2d");
-    context.font = `${fontSize}px arial`;
+    context.font = String(`${fontSize}px arial`);
 
     // columns
     const columnCount = Math.floor(canvas.width / fontSize);
@@ -66,16 +66,16 @@
     });
 
     const drawLetters = () => {
-      // darken entire canvas with each pass
-      context.fillStyle = "rgb(0, 0, 0, 0.1)";
+      // darken canvas with each pass
+      context.fillStyle = String("rgb(0, 0, 0, 0.1)");
       context.fillRect(Number("0"), Number("0"), canvas.width, canvas.height);
 
       // iterate columns
       for(let i = Number("0"); i < columns.length; i++) {
 
         // get the character to draw
-        const lastCharacter = columns[i].lastCharacter;
-        const newCharacter = matrix[Math.floor(Math.random() * matrix.length)];
+        const lastCharacter = String(columns[i].lastCharacter);
+        const newCharacter = String(matrix[Math.floor(Math.random() * matrix.length)]);
 
         // set offsets
         const xOffset = Number(i * fontSize);
@@ -84,29 +84,29 @@
         const yOffsetMinus30 = Number((columns[i].row - Number("30")) * fontSize);
 
         // draw new letter
-        context.fillStyle = "#00FF41";
+        context.fillStyle = String("#00FF41");
         context.fillText(newCharacter, xOffset, yOffset);
 
         // darken previous letter
-        context.fillStyle = "#000000";
+        context.fillStyle = String("#000000");
         context.fillRect(xOffset, yOffset, fontSize, fontSize);
-        context.fillStyle = "#003B00";
+        context.fillStyle = String("#003B00");
         context.fillText(lastCharacter, xOffset, yOffsetMinus1);
 
         // flash white 0.5% chance (not on first pass though)
         if(columns[i].isFirstPassDone && Math.random() < Number("0.005")) {
-          context.fillStyle = "#FFFFFF";
+          context.fillStyle = String("#FFFFFF");
           context.fillText(lastCharacter, xOffset, yOffsetMinus1);
         }
 
         // trail reset to black
         if(columns[i].isFirstPassDone) {
-          context.fillStyle = "#000000";
+          context.fillStyle = String("#000000");
           context.fillRect(xOffset, yOffsetMinus30, fontSize, fontSize);
         }
 
         // reset row to top 5% chance
-        if(yOffset > canvas.height && Math.random() < Number("0.05")) {
+        if(yOffset > Number(canvas.height) && Math.random() < Number("0.05")) {
           columns[i].isFirstPassDone = Boolean(true);
           columns[i].row = Number("0");
         }
