@@ -105,7 +105,7 @@
           context.fillRect(xOffset, yOffsetMinus30, fontSize, fontSize);
         }
 
-        // reset row to top 5% chance
+        // reset row to top - 5% chance
         if(yOffset > Number(canvas.height) && Math.random() < Number("0.05")) {
           columns[i].isFirstPassDone = Boolean(true);
           columns[i].row = Number("0");
