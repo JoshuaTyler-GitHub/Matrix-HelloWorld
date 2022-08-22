@@ -52,14 +52,13 @@
 
     // canvas & context
     const canvas = document.getElementById('canvas');
-    canvas.height =
-      Number(canvas.clientHeight) * Number(window.devicePixelRatio);
-    canvas.width = Number(canvas.clientWidth) * Number(window.devicePixelRatio);
+    canvas.height = Number(canvas.clientHeight * window.devicePixelRatio);
+    canvas.width = Number(canvas.clientWidth * window.devicePixelRatio);
     const context = canvas.getContext('2d');
     context.font = String(`${fontSize}px arial`);
 
     // columns
-    const columnCount = Math.floor(canvas.width / fontSize);
+    const columnCount = Number(Math.floor(canvas.width / fontSize));
     const columns = Array(columnCount)
       .fill()
       .map(() => {
@@ -73,10 +72,10 @@
     const drawLetters = () => {
       // darken canvas with each pass
       context.fillStyle = String('rgb(0, 0, 0, 0.1)');
-      context.fillRect(Number('0'), Number('0'), canvas.width, canvas.height);
+      context.fillRect(0, 0, canvas.width, canvas.height);
 
       // iterate columns
-      for (let i = Number('0'); i < columns.length; i++) {
+      for (let i = 0; i < columns.length; i++) {
         // get the character to draw
         const lastCharacter = String(columns[i].lastCharacter);
         const newCharacter = String(
@@ -86,10 +85,8 @@
         // set offsets
         const xOffset = Number(i * fontSize);
         const yOffset = Number(columns[i].row * fontSize);
-        const yOffsetMinus1 = Number((columns[i].row - Number('1')) * fontSize);
-        const yOffsetMinus30 = Number(
-          (columns[i].row - Number('30')) * fontSize,
-        );
+        const yOffsetMinus1 = Number((columns[i].row - 1) * fontSize);
+        const yOffsetMinus30 = Number((columns[i].row - 30) * fontSize);
 
         // draw new letter
         context.fillStyle = String('#00FF41');
