@@ -88,18 +88,16 @@
         const yOffsetMinus1 = Number((columns[i].row - 1) * fontSize);
         const yOffsetMinus30 = Number((columns[i].row - 30) * fontSize);
 
-        // draw new letter
-        context.fillStyle = String('#00FF41');
+        // draw new letter white
+        context.fillStyle = String('#FFFFFF');
         context.fillText(newCharacter, xOffset, yOffset);
 
-        // darken previous letter
-        context.fillStyle = String('#000000');
-        context.fillRect(xOffset, yOffset, fontSize, fontSize);
-        context.fillStyle = String('#003B00');
+        // set previous letter green
+        context.fillStyle = String('#00FF41');
         context.fillText(lastCharacter, xOffset, yOffsetMinus1);
 
-        // flash white 0.5% chance (not on first pass though)
-        if (columns[i].isFirstPassDone && Math.random() < Number('0.005')) {
+        // flash white 0.5% chance
+        if (Math.random() < Number('0.005')) {
           context.fillStyle = String('#FFFFFF');
           context.fillText(lastCharacter, xOffset, yOffsetMinus1);
         }
