@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <!-- HEAD -->
   <head>
     <meta charset="utf-8" />
     <link id="favicon" rel="icon" href="public/favicon.ico" />
     <link rel="manifest" href="public/manifest.json" />
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap.min.css" />
     <meta
       name="viewport"
       content="width=device-width, height=device-height, viewport-fit=cover, initial-scale=1"
@@ -15,7 +14,7 @@
     <meta name="HelloWorld" content="Matrix-HelloWorld" />
     <style media="screen">
       #canvas {
-        background: #0D0208;
+        background: #0d0208;
         height: 100vh;
         position: absolute;
         width: 100vw;
@@ -31,7 +30,9 @@
     <div id="root" class="container-fluid">
       <div class="h-100 row">
         <div class="col-xl">
-          <div class="align-items-center d-flex justify-content-center mt-5 p-5">
+          <div
+            class="align-items-center d-flex justify-content-center mt-5 p-5"
+          >
             <h1 id="hello-world" class="text-light">Hello World!</h1>
           </div>
         </div>
@@ -42,73 +43,80 @@
 
   <!-- JAVASCRIPT -->
   <script type="text/javascript">
-
     // constants
-    const fontSize = Number("20");
-    const letters = String("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}");
+    const fontSize = Number('20');
+    const letters = String(
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}',
+    );
     const matrix = Array.from(letters);
-    
+
     // canvas & context
-    const canvas = document.getElementById("canvas");
-    canvas.height = Number(canvas.clientHeight) * Number(window.devicePixelRatio);
+    const canvas = document.getElementById('canvas');
+    canvas.height =
+      Number(canvas.clientHeight) * Number(window.devicePixelRatio);
     canvas.width = Number(canvas.clientWidth) * Number(window.devicePixelRatio);
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext('2d');
     context.font = String(`${fontSize}px arial`);
 
     // columns
     const columnCount = Math.floor(canvas.width / fontSize);
-    const columns = Array(columnCount).fill().map(() => {
-      return {
-        isFirstPassDone: Boolean(false),
-        lastCharacter: String(matrix[0]),
-        row: Number("0"),
-      }
-    });
+    const columns = Array(columnCount)
+      .fill()
+      .map(() => {
+        return {
+          isFirstPassDone: Boolean(false),
+          lastCharacter: String(matrix[0]),
+          row: Number('0'),
+        };
+      });
 
     const drawLetters = () => {
       // darken canvas with each pass
-      context.fillStyle = String("rgb(0, 0, 0, 0.1)");
-      context.fillRect(Number("0"), Number("0"), canvas.width, canvas.height);
+      context.fillStyle = String('rgb(0, 0, 0, 0.1)');
+      context.fillRect(Number('0'), Number('0'), canvas.width, canvas.height);
 
       // iterate columns
-      for(let i = Number("0"); i < columns.length; i++) {
-
+      for (let i = Number('0'); i < columns.length; i++) {
         // get the character to draw
         const lastCharacter = String(columns[i].lastCharacter);
-        const newCharacter = String(matrix[Math.floor(Math.random() * matrix.length)]);
+        const newCharacter = String(
+          matrix[Math.floor(Math.random() * matrix.length)],
+        );
 
         // set offsets
         const xOffset = Number(i * fontSize);
         const yOffset = Number(columns[i].row * fontSize);
-        const yOffsetMinus1 = Number((columns[i].row - Number("1")) * fontSize);
-        const yOffsetMinus30 = Number((columns[i].row - Number("30")) * fontSize);
+        const yOffsetMinus1 = Number((columns[i].row - Number('1')) * fontSize);
+        const yOffsetMinus30 = Number(
+          (columns[i].row - Number('30')) * fontSize,
+        );
 
         // draw new letter
-        context.fillStyle = String("#00FF41");
+        context.fillStyle = String('#00FF41');
         context.fillText(newCharacter, xOffset, yOffset);
 
         // darken previous letter
-        context.fillStyle = String("#000000");
+        context.fillStyle = String('#000000');
         context.fillRect(xOffset, yOffset, fontSize, fontSize);
-        context.fillStyle = String("#003B00");
+        context.fillStyle = String('#003B00');
         context.fillText(lastCharacter, xOffset, yOffsetMinus1);
 
         // flash white 0.5% chance (not on first pass though)
-        if(columns[i].isFirstPassDone && Math.random() < Number("0.005")) {
-          context.fillStyle = String("#FFFFFF");
+        if (columns[i].isFirstPassDone && Math.random() < Number('0.005')) {
+          context.fillStyle = String('#FFFFFF');
           context.fillText(lastCharacter, xOffset, yOffsetMinus1);
         }
 
         // trail reset to black
-        if(columns[i].isFirstPassDone) {
-          context.fillStyle = String("#000000");
+        if (columns[i].isFirstPassDone) {
+          context.fillStyle = String('#000000');
           context.fillRect(xOffset, yOffsetMinus30, fontSize, fontSize);
         }
 
         // reset row to top - 5% chance
-        if(yOffset > Number(canvas.height) && Math.random() < Number("0.05")) {
+        if (yOffset > Number(canvas.height) && Math.random() < Number('0.05')) {
           columns[i].isFirstPassDone = Boolean(true);
-          columns[i].row = Number("0");
+          columns[i].row = Number('0');
         }
 
         // progress downward
@@ -123,6 +131,5 @@
 
     // repeat drawLetters() every 50ms
     setInterval(drawLetters, 50);
-
   </script>
 </html>
